@@ -6,7 +6,8 @@ VkontakteApi.configure do |config|
 
   config.app_id       = 3730969 #ENV['APP_ID']
   config.app_secret   = '3lhVk32nGJe64z2hxBG5' #ENV['APP_SECRET']
-  config.redirect_uri = 'http://4vb2.localtunnel.com/callback' 
+  config.redirect_uri = 'http://vkror.herokuapp.com/callback'
+  
    
   # Faraday adapter to make requests with:
   # config.adapter = :net_
