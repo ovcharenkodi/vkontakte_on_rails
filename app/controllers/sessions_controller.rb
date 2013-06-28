@@ -4,16 +4,25 @@ class SessionsController < ApplicationController
     srand
     session[:state] ||= Digest::MD5.hexdigest(rand.to_s)
     
-    @vk_url = VkontakteApi.authorization_url(scope: [:friends, :groups, :offline, :notify], state: session[:state])
+    @vk_url = VkontakteApi.authorization_url(scope: [:friends], state: session[:state])
+
+    puts "-------------------------  SESSION  ---------------------"
+    puts session 
   end
   
   def callback
-    redirect_to root_url, alert: 'Ошибка авторизации, попробуйте войти еще раз.' and return if session[:state].present? && session[:state] != params[:state]
-        
+    redirect_to root_url, alert: 'Ошибка авторизации, попробуйте войти еще раз.' and return if session[:state].present? && session[:state] != state[:params]
+      
     @vk = VkontakteApi.authorize(code: params[:code])
-    session[:token] = @vk.token
-    session[:vk_id] = @vk.user_id
-    
+    puts "------------------------------------------"
+    puts @vk
+    begin
+      session[:token] = @vk.token
+      session[:vk_id] = @vk.user_id
+    rescue Exception=>e
+      puts e
+    end
+
     redirect_to root_url
   end
   
